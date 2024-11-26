@@ -205,13 +205,10 @@ export type RowEventHandler<T> = (e: SyntheticEvent, row: T, rowIndex: number) =
 /**
  * Row level event handlers
  */
-export type RowEventHandlerProps<T = any> = Partial<{
-    onClick: RowEventHandler<T>;
-    onDoubleClick: RowEventHandler<T>;
-    onMouseEnter: RowEventHandler<T>;
-    onMouseLeave: RowEventHandler<T>;
-    onContextMenu: RowEventHandler<T>;
-}>;
+export type RowEventHandlerProps<T = any> = {
+    [K in keyof Omit<React.DOMAttributes<HTMLTableRowElement>, "children" | "dangerouslySetInnerHTML">]:
+    (e: Parameters<Required<React.DOMAttributes<HTMLTableRowElement>>[K]>[0], row: T, rowIndex: number) => void;
+};
 
 /**
  * Table change callback method
